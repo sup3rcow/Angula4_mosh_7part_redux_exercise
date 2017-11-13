@@ -28,9 +28,9 @@ export function rootReducer(state: IAppState, action) {
         let index = state.todos.indexOf(todo);
         return tassign(state, {
             todos: [
-                ...state.todos.slice(0, index),
-                tassign(todo, { isCompleted: !todo.isCompleted }),
-                ...state.todos.slice(index + 1)
+                ...state.todos.slice(0, index), // ubaci todos do indexa
+                tassign(todo, { isCompleted: !todo.isCompleted }), // izmijeni todo i ubaci ga
+                ...state.todos.slice(index + 1) // ubaci ostale todos
             ],
             lastUpdate: new Date()
         });
