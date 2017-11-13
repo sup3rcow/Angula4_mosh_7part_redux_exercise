@@ -2,8 +2,14 @@ import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO, CLEAR_TODOS } from './actions';
 import { tassign } from 'tassign';
 
 
+interface ITodo { // ovako odmah znas sta ocekujes u store-u
+    id: number;
+    title: string;
+    isCompleted: boolean;
+}
+
 export interface IAppState {
-    todos: any[];
+    todos: ITodo[]; // ovo je lose kad je any[],pa kasnije dodaje propertije gde mu padne na pamet.Bolje definiraj Interfejs(jesi ITodo)
     lastUpdate: Date;
 }
 
@@ -15,7 +21,7 @@ export const INITIAL_STATE: IAppState = {
 export function rootReducer(state: IAppState, action) {
     switch (action.type) {
         case ADD_TODO:
-        let newTodo = { id: state.todos.length + 1, title: action.title };
+        let newTodo = { id: state.todos.length + 1, title: action.title, isCompleted: false };
         return tassign(state,
             {
                 todos: state.todos.concat(newTodo),
@@ -29,7 +35,7 @@ export function rootReducer(state: IAppState, action) {
         return tassign(state, {
             todos: [
                 ...state.todos.slice(0, index), // ubaci todos do indexa
-                tassign(todo, { isCompleted: !todo.isCompleted }), // izmijeni todo i ubaci ga
+                tassign(todo, { isCompleted: !todo.isCompleted }), // izmijeni todo
                 ...state.todos.slice(index + 1) // ubaci ostale todos
             ],
             lastUpdate: new Date()
